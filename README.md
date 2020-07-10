@@ -50,3 +50,91 @@ directories, then clone git repos, then install packages, etc) you can store
 similar configuration with each other (e.g. all the settings for ssh, all the
 setting for a developer environment) while still getting the benefit of having
 various actions execute in parallel.
+
+## Test Run
+Here is what this looks like in action!
+```
+⇒  sudo ansible-playbook -vvv -i inventory clients.yml
+ansible-playbook 2.9.6
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  executable location = /usr/bin/ansible-playbook
+  python version = 3.8.2 (default, Apr 27 2020, 15:53:34) [GCC 9.3.0]
+Using /etc/ansible/ansible.cfg as config file
+
+PLAYBOOK: clients.yml *****************************************************************************************************************************************************************************************
+1 plays in clients.yml
+
+PLAY [clients] ************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [pkg1 : queue git for installation] **********************************************************************************************************************************************************************
+ok: [localhost] => {
+    "ansible_facts": {
+        "packages": [
+            "git"
+        ]
+    },
+    "changed": false
+}
+
+TASK [pkg2 : queue zsh for installation] **********************************************************************************************************************************************************************
+ok: [localhost] => {
+    "ansible_facts": {
+        "packages": [
+            "git",
+            "zsh"
+        ]
+    },
+    "changed": false
+}
+
+TASK [init : pkgs to install] *********************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "packages": [
+        "git",
+        "zsh"
+    ]
+}
+
+TASK [init : install packages] ********************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "cache_update_time": 1594303134,
+    "cache_updated": false,
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "allow_unauthenticated": false,
+            "autoclean": false,
+            "autoremove": false,
+            "cache_valid_time": 0,
+            "deb": null,
+            "default_release": null,
+            "dpkg_options": "force-confdef,force-confold",
+            "force": false,
+            "force_apt_get": false,
+            "install_recommends": null,
+            "name": [
+                "git",
+                "zsh"
+            ],
+            "only_upgrade": false,
+            "package": [
+                "git",
+                "zsh"
+            ],
+            "policy_rc_d": null,
+            "purge": false,
+            "state": "latest",
+            "update_cache": null,
+            "upgrade": null
+        }
+    }
+}
+
+PLAY RECAP ****************************************************************************************************************************************************************************************************
+localhost                  : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
