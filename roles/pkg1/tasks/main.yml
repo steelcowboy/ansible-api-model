@@ -1,4 +1,4 @@
 ---
 - name: queue git for installation
   set_fact:
-    packages: "{{ packages + [ 'git' ] }}"
+    pkgs_install: "{{ pkgs_install + [ 'git' ] }}"

@@ -1,5 +1,3 @@
 - hosts: clients
   roles:
-    - pkg1
-    - pkg2
     - init 

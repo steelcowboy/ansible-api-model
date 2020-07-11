@@ -1,8 +1,17 @@
 ---
 - name: pkgs to install 
-  debug: var=packages
+  debug: var=pkgs_install
 
 - name: install packages
   package:
-    name: "{{ packages }}"
+    name: "{{ pkgs_install }}"
     state: latest
+
+- name: pkgs to remove 
+  debug: var=pkgs_remove
+
+- name: remove packages
+  package:
+    name: "{{ pkgs_remove }}"
+    state: absent 
+

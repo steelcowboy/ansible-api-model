@@ -1,0 +1,5 @@
+---
+dependencies:
+  - pkg1
+  - pkg2
+  - pkg3
