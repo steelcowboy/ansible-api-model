@@ -1,0 +1,9 @@
+---
+- name: removing the following packages 
+  debug: var=packages.remove
+
+- name: remove packages
+  package:
+    name: "{{ packages['remove'] }}"
+    state: absent 
+

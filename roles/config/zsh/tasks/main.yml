@@ -1,0 +1,5 @@
+---
+- name: queue zsh for installation
+  set_fact:
+    packages:
+      install: "{{ packages['install'] + [ 'zsh' ] }}"

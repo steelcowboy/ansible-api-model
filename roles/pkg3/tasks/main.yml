@@ -1,4 +1,0 @@
----
-- name: queue autojump for removal
-  set_fact:
-    pkgs_remove: "{{ pkgs_remove + [ 'autojump' ] }}"

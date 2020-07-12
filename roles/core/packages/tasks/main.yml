@@ -1,0 +1,8 @@
+---
+- debug: var=packages
+
+- name: install requested packages
+  import_tasks: install.yml
+
+- name: remove requested packages
+  import_tasks: remove.yml

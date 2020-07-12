@@ -1,0 +1,10 @@
+---
+#- name: queue autojump for removal
+  #set_fact:
+    #packages: 
+      #remove: "{{ packages['remove'] + [ 'autojump' ] }}"
+
+- name: queue fasd for installation
+  set_fact:
+    packages:
+      install: "{{ packages['install'] + [ 'fasd' ] }}"

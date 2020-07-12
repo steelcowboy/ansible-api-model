@@ -1,0 +1,8 @@
+---
+- name: installing the following packages 
+  debug: var=packages.install
+
+- name: install packages
+  package:
+    name: "{{ packages['install'] }}"
+    state: latest

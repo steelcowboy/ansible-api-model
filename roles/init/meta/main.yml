@@ -1,5 +1,4 @@
 ---
 dependencies:
-  - pkg1
-  - pkg2
-  - pkg3
+  - config/init 
+  - core/init 

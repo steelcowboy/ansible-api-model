@@ -1,0 +1,5 @@
+---
+dependencies:
+  - zsh 
+  - git 
+  - fasd 
