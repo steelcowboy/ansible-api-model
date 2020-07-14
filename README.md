@@ -51,6 +51,28 @@ similar configuration with each other (e.g. all the settings for ssh, all the
 setting for a developer environment) while still getting the benefit of having
 various actions execute in parallel.
 
+# Benchmark
+For my personal repo that I refactored to fit this model (which already had 
+quite a bit in parallel) I found a *20% decrease* in execution time.
+
+## Before
+```
+~/ansible|5a80a5d ⇒  for x in {1..3}; do time sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1; done   
+sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1  9.71s user 1.86s system 90% cpu 12.782 total
+sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1  9.80s user 2.01s system 92% cpu 12.768 total
+sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1  9.92s user 1.86s system 91% cpu 12.811 total
+```
+Average: 12.787s
+
+## After
+```
+~/ansible|master ⇒  for x in {1..3}; do time sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1; done
+sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1  7.54s user 1.76s system 88% cpu 10.531 total
+sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1  7.60s user 1.68s system 84% cpu 10.979 total
+sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1  7.18s user 1.71s system 89% cpu 9.952 total
+```
+Average: 10.487s 
+
 ## Test Run
 Here is what this looks like in action!
 ```
@@ -130,6 +152,24 @@ ok: [localhost] => {
     },
     "changed": false
 }
+
+TASK [google_chrome : import Google's apt key] *****************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [google_chrome : set up Chrome repository] ****************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [google_chrome : install Google Chrome] *******************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [google_chrome : set Chrome as the default browser] *******************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [repos : import apt keys] *********************************************************************************************************************************************************************************
+ok: [localhost] => (item=https://dl.google.com/linux/linux_signing_key.pub)
+
+TASK [repos : set up repositories] *****************************************************************************************************************************************************************************
+ok: [localhost] => (item=deb http://dl.google.com/linux/chrome/deb/ stable main)
 
 TASK [packages : debug] ****************************************************************************************************************************************************************************************
 ok: [localhost] => {
@@ -232,25 +272,3 @@ ok: [localhost] => {
 PLAY RECAP *****************************************************************************************************************************************************************************************************
 localhost                  : ok=10   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
-
-# Benchmark
-For my personal repo that I refactored to fit this model (which already had 
-quite a bit in parallel) I found a *20% decrease* in execution time.
-
-## Before
-```
-~/ansible|5a80a5d ⇒  for x in {1..3}; do time sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1; done   
-sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1  9.71s user 1.86s system 90% cpu 12.782 total
-sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1  9.80s user 2.01s system 92% cpu 12.768 total
-sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1  9.92s user 1.86s system 91% cpu 12.811 total
-```
-Average: 12.787s
-
-## After
-```
-~/ansible|master ⇒  for x in {1..3}; do time sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1; done
-sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1  7.54s user 1.76s system 88% cpu 10.531 total
-sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1  7.60s user 1.68s system 84% cpu 10.979 total
-sudo ansible-playbook -i inventory clients.yml > /dev/null 2>&1  7.18s user 1.71s system 89% cpu 9.952 total
-```
-Average: 10.487s 
