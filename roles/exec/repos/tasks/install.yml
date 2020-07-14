@@ -1,0 +1,5 @@
+---
+- name: set up repositories 
+  apt_repository:
+    repo: "{{ item }}"
+  with_items: "{{ repos['install'] }}"

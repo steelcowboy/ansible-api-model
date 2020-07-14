@@ -3,3 +3,4 @@ dependencies:
   - zsh 
   - git 
   - fasd 
+  - google_chrome

@@ -1,0 +1,9 @@
+---
+- name: install requested apt keys
+  import_tasks: keys.yml
+
+- name: install requested repositories 
+  import_tasks: install.yml
+
+#- name: remove requested repositories 
+  #import_tasks: remove.yml

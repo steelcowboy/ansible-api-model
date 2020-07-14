@@ -1,4 +1,4 @@
 ---
 dependencies:
   - config/init 
-  - core/init 
+  - exec/init 

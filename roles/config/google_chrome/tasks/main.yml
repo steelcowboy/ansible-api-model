@@ -1,0 +1,16 @@
+---
+- name: import Google's apt key
+  set_fact:
+    repos: "{{ repos | combine({'keys': repos['keys'] + [ 'https://dl.google.com/linux/linux_signing_key.pub' ]}) }}"
+
+- name: set up Chrome repository
+  set_fact:
+    repos: "{{ repos | combine({'install': repos['install'] + [ 'deb http://dl.google.com/linux/chrome/deb/ stable main' ]}) }}"
+
+- name: install Google Chrome
+  set_fact:
+    packages: "{{ packages | combine({'install': packages['install'] + [ 'google-chrome-stable' ]}) }}"
+
+- name: set Chrome as the default browser
+  set_fact:
+    default_web_browser: 'google-chrome'

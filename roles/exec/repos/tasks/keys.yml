@@ -1,0 +1,5 @@
+---
+- name: import apt keys
+  apt_key:
+    url: "{{ item }}"
+  with_items: "{{ repos['keys'] }}"
